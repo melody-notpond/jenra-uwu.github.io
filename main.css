@@ -21,6 +21,11 @@ header {
 	float: left;
 	vertical-align: middle;
 	color: #596058;
+	transition: background-color 400ms;
+}
+
+.nav-toolbar-button:hover {
+	background-color: #A0C2DE;
 }
 
 .nav-toolbar-about {
