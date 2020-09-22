@@ -1,0 +1,50 @@
+body {
+	background-color: #f2f4ff;
+	color: #596058;
+	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+header {
+	background-color: #a9d3ff;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 40pt;
+	position: absolute;
+}
+
+.nav-toolbar-button {
+	background-color: #96c5f7;
+	width: 100pt;
+	height: 40pt;
+	text-align: center;
+	float: left;
+	vertical-align: middle;
+	color: #596058;
+}
+
+.nav-toolbar-about {
+	float: right;
+}
+
+.nav-toolbar a {
+	text-decoration: none;
+}
+
+#main-content {
+	position: absolute;
+	top: 50pt;
+}
+
+footer {
+	background-color: #a9d3ff;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	position: absolute;
+	height: 70pt;
+}
+
+footer p {
+	vertical-align: middle;
+}
