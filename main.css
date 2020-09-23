@@ -10,7 +10,7 @@ header {
 	left: 0;
 	right: 0;
 	height: 40pt;
-	position: absolute;
+	position: fixed;
 }
 
 .nav-toolbar-button {
