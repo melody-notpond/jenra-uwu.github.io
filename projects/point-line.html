@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset='utf-8'>
+	<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+	<title>Point Line | Laura's Projects</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1'>
+	<link rel='stylesheet' type='text/css' media='screen' href='../main.css'>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src='../main.js'></script>
+	<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
+	<script>
+		var points = [{x: 100, y: 100, radius: 0, px: 85, py: 100, pinned: true}, {x: 100, y: 200, radius: 0, px: 95, py: 195}, {x: 200, y: 200, radius: 0, px: 195, py: 195}, {x: 200, y: 100, radius: 0, px: 195, py: 95}],
+			sticks = [{p0: points[0], p1: points[1], dist: 100}, {p0: points[1], p1: points[2], dist: 100}, {p0: points[2], p1: points[3], dist: 100}, {p0: points[3], p1: points[0], dist: 100}, {p0: points[0], p1: points[2], dist: 141.4, hidden: true}],
+			forms = [{path: [points[0], points[1], points[2], points[3]], colour: {r: 255, g: 0, b: 255, a: 255}}],
+			gravity = 0.5,
+			friction = 0.999,
+			wallBounce = 0.9;
+
+		function setup()
+		{
+			let canvas = createCanvas(800, 600);
+			canvas.parent("canvas-container");
+		}
+
+		function tick()
+		{
+			points.forEach(p => {
+				// Check if pinned
+				if (p.pinned)
+					return;
+
+				// Get velocity
+				var vx = (p.x - p.px) * friction,
+					vy = (p.y - p.py) * friction;
+				p.px = p.x;
+				p.py = p.y;
+
+				// Update position
+				p.x += vx;
+				p.y += vy + gravity;
+			});
+
+			for (let i = 0; i < 3; i++)
+			{
+				sticks.forEach(s => {
+					// Get the difference in distances
+					var dx = s.p1.x - s.p0.x,
+						dy = s.p1.y - s.p0.y,
+						distance = Math.sqrt(dx * dx + dy * dy),
+						distDiff = distance - s.dist,
+
+					// Get the percent
+						percent = distDiff / s.dist / 2;
+
+					// Update p0
+					if (!s.p0.pinned)
+					{
+						s.p0.x += dx * percent;
+						s.p0.y += dy * percent;
+					}
+
+					// Update p1
+					if (!s.p1.pinned)
+					{
+						s.p1.x -= dx * percent;
+						s.p1.y -= dy * percent;
+					}
+				});
+
+				points.forEach(p => {
+					var vx = p.x - p.px,
+						vy = p.y - p.py;
+
+					// Collide with the wall
+					if (p.x + p.radius > width)
+					{
+						p.x = width - p.radius;
+						p.px = p.x + vx * wallBounce;
+					} else if (p.x - p.radius < 0)
+					{
+						p.x = p.radius;
+						p.px = p.x + vx * wallBounce;
+					}
+					if (p.y + p.radius > height)
+					{
+						p.y = height - p.radius;
+						p.py = p.y + vy * wallBounce;
+					} else if (p.y - p.radius < 0)
+					{
+						p.y = p.radius;
+						p.py = p.y + vy * wallBounce;
+					}
+				});
+			}
+		}
+
+		function draw()
+		{
+			tick();
+
+			background(255);
+			fill(0);
+
+			forms.forEach(f => {
+				fill(f.colour.r, f.colour.g, f.colour.b, f.colour.a);
+				beginShape();
+				f.path.forEach(p => {
+					vertex(p.x, p.y);
+				});
+				endShape(CLOSE);
+			});
+
+			fill(0);
+			points.forEach(p => {
+				ellipse(p.x, p.y, p.radius * 2);
+			});
+			sticks.forEach(s => {
+				if (!s.hidden)
+					line(s.p0.x, s.p0.y, s.p1.x, s.p1.y);
+			});
+		}
+	</script>
+	<style>
+		.p5Canvas {
+			align-content: center;
+		}
+	</style>
+</head>
+
+<body>
+	<header style="display: none;">
+	</header>
+
+	<div id="main-content">
+		<h1> Point Line </h1>
+		<div id="canvas-container" style="float: left;">
+		</div>
+		<div id="beside-canvas" style="float:left">
+		</div>
+		<p>
+			Point Line is a little toy physics engine for Javascript I'm working on using p5.js.
+		</p>
+	</div>
+</body>
+</html>
