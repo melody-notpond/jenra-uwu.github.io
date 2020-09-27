@@ -11,7 +11,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
 	<script>
 		var points = [{x: 100, y: 100, radius: 0, px: 85, py: 100, pinned: true}, {x: 100, y: 200, radius: 0, px: 95, py: 195}, {x: 200, y: 200, radius: 0, px: 195, py: 195}, {x: 200, y: 100, radius: 0, px: 195, py: 95}],
-			sticks = [{p0: points[0], p1: points[1], dist: 100}, {p0: points[1], p1: points[2], dist: 100}, {p0: points[2], p1: points[3], dist: 100}, {p0: points[3], p1: points[0], dist: 100}, {p0: points[0], p1: points[2], dist: 141.4, hidden: true}],
+			sticks = [{p0: points[0], p1: points[1], dist: 100}, {p0: points[1], p1: points[2], dist: 100}, {p0: points[2], p1: points[3], dist: 100}, {p0: points[3], p1: points[0], dist: 100}, {p0: points[0], p1: points[2], dist: 141.4, hidden: true, k: 0.1}],
 			forms = [{path: [points[0], points[1], points[2], points[3]], colour: {r: 255, g: 0, b: 255, a: 255}}],
 			gravity = 0.5,
 			friction = 0.999,
@@ -48,23 +48,47 @@
 					var dx = s.p1.x - s.p0.x,
 						dy = s.p1.y - s.p0.y,
 						distance = Math.sqrt(dx * dx + dy * dy),
-						distDiff = distance - s.dist,
+						distDiff = distance - s.dist;
 
-					// Get the percent
-						percent = distDiff / s.dist / 2;
-
-					// Update p0
-					if (!s.p0.pinned)
+					// Stick is actually a spring
+					if (s.k)
 					{
-						s.p0.x += dx * percent;
-						s.p0.y += dy * percent;
-					}
+						var angle = Math.atan2(dy, dx),
+							fx = s.k * distDiff / 2 * Math.cos(angle),
+							fy = s.k * distDiff / 2 * Math.sin(angle);
 
-					// Update p1
-					if (!s.p1.pinned)
+						// Update p0
+						if (!s.p0.pinned)
+						{
+							s.p0.x += fx;
+							s.p0.y += fy;
+						}
+
+						// Update p1
+						if (!s.p1.pinned)
+						{
+							s.p1.x -= fx;
+							s.p1.y -= fy;
+						}
+					// Stick is not a spring
+					} else
 					{
-						s.p1.x -= dx * percent;
-						s.p1.y -= dy * percent;
+						// Get the percent
+						var percent = distDiff / s.dist / 2;
+
+						// Update p0
+						if (!s.p0.pinned)
+						{
+							s.p0.x += dx * percent;
+							s.p0.y += dy * percent;
+						}
+
+						// Update p1
+						if (!s.p1.pinned)
+						{
+							s.p1.x -= dx * percent;
+							s.p1.y -= dy * percent;
+						}
 					}
 				});
 
