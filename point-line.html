@@ -11,7 +11,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
 	<script>
 		var points = [createPoint(100, 100, 0, 0, 0, true), createPoint(100, 200), createPoint(200, 200), createPoint(200, 100)],
-			sticks = [createStick(points[0], points[1]), createStick(points[1], points[2]), createStick(points[2], points[3]), createStick(points[3], points[0]), createStick(points[0], points[2], 0.1, true)],
+			sticks = [createStick(points[0], points[1], 0.1), createStick(points[1], points[2], 0.1), createStick(points[2], points[3], 0.1), createStick(points[3], points[0], 0.1), createStick(points[0], points[2], 0.1, true)],
 			forms = [createForm(points[0], points[1], points[2], points[3]).setColour(255, 0, 255)],
 			gravity = 0.5,
 			friction = 0.999,
@@ -89,7 +89,7 @@
 						distDiff = distance - s.dist;
 
 					// Stick is actually a spring
-					if (s.k)
+					if (s.k && i == 0)
 					{
 						var angle = Math.atan2(dy, dx),
 							fx = s.k * distDiff / 2 * Math.cos(angle),
@@ -109,7 +109,7 @@
 							s.p1.y -= fy;
 						}
 					// Stick is not a spring
-					} else
+					} else if (!s.k)
 					{
 						// Get the percent
 						var percent = distDiff / s.dist / 2;
