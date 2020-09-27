@@ -10,9 +10,22 @@
 	<script src='main.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
 	<script>
-		var points = [createPoint(100, 100, 0, 0, 0, true), createPoint(100, 200), createPoint(200, 200), createPoint(200, 100)],
-			sticks = [createStick(points[0], points[1], 0.1), createStick(points[1], points[2], 0.1), createStick(points[2], points[3], 0.1), createStick(points[3], points[0], 0.1), createStick(points[0], points[2], 0.1, true)],
-			forms = [createForm(points[0], points[1], points[2], points[3]).setColour(255, 0, 255)],
+		var points = [
+				createPoint(100, 100, 0, 0, 0, true),
+				createPoint(100, 200),
+				createPoint(200, 200),
+				createPoint(200, 100)
+			],
+			sticks = [
+				createStick(points[0], points[1], 0.1),
+				createStick(points[1], points[2], 0.1),
+				createStick(points[2], points[3], 0.1),
+				createStick(points[3], points[0], 0.1),
+				createStick(points[0], points[2], 0.1, true)
+			],
+			forms = [
+				createForm(points[0], points[1], points[2], points[3]).setColour(255, 0, 255)
+			],
 			gravity = 0.5,
 			friction = 0.999,
 			wallBounce = 0.9;
@@ -184,8 +197,21 @@
 		}
 	</script>
 	<style>
-		.p5Canvas {
-			align-content: center;
+		#canvas-grid-container {
+			display: grid;
+			grid-template-columns: 800px auto;
+			grid-template-rows: auto;
+		}
+
+		/*
+		#canvas-container {
+
+		}
+		*/
+
+		#beside-canvas {
+			background-color: #a9d3ff;
+			margin-left: 5mm;
 		}
 	</style>
 </head>
@@ -196,9 +222,12 @@
 
 	<div id="main-content">
 		<h1> Point Line </h1>
-		<div id="canvas-container" style="float: left;">
-		</div>
-		<div id="beside-canvas" style="float:left">
+		<div id="canvas-grid-container">
+			<div id="canvas-container">
+			</div>
+			<div id="beside-canvas">
+				test
+			</div>
 		</div>
 		<p>
 			Point Line is a little toy physics engine for Javascript I'm working on using p5.js.
