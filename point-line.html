@@ -10,12 +10,50 @@
 	<script src='main.js'></script>
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
 	<script>
-		var points = [{x: 100, y: 100, radius: 0, px: 85, py: 100, pinned: true}, {x: 100, y: 200, radius: 0, px: 95, py: 195}, {x: 200, y: 200, radius: 0, px: 195, py: 195}, {x: 200, y: 100, radius: 0, px: 195, py: 95}],
-			sticks = [{p0: points[0], p1: points[1], dist: 100}, {p0: points[1], p1: points[2], dist: 100}, {p0: points[2], p1: points[3], dist: 100}, {p0: points[3], p1: points[0], dist: 100}, {p0: points[0], p1: points[2], dist: 141.4, hidden: true, k: 0.1}],
-			forms = [{path: [points[0], points[1], points[2], points[3]], colour: {r: 255, g: 0, b: 255, a: 255}}],
+		var points = [createPoint(100, 100, 0, 0, 0, true), createPoint(100, 200), createPoint(200, 200), createPoint(200, 100)],
+			sticks = [createStick(points[0], points[1]), createStick(points[1], points[2]), createStick(points[2], points[3]), createStick(points[3], points[0]), createStick(points[0], points[2], 0.1, true)],
+			forms = [createForm(points[0], points[1], points[2], points[3]).setColour(255, 0, 255)],
 			gravity = 0.5,
 			friction = 0.999,
 			wallBounce = 0.9;
+
+		function createPoint(x, y, radius, vx, vy, pinned)
+		{
+			return {
+				x: x,
+				y: y,
+				px: x - (vx ? vx : 0),
+				py: y - (vy ? vy : 0),
+				radius: radius ? radius : 0,
+				pinned: pinned
+			};
+		}
+
+		function createStick(p0, p1, k, hidden, dist)
+		{
+			return {
+				p0: p0,
+				p1: p1,
+				k: k,
+				hidden: hidden,
+				dist: dist ? dist : Math.sqrt((p1.x - p0.x) * (p1.x - p0.x) + (p1.y - p0.y) * (p1.y - p0.y))
+			};
+		}
+
+		function createForm(...args)
+		{
+			var form = {path: args};
+			form.setColour = (r, g, b, a) => {
+				form.colour = {
+					r: r,
+					g: g,
+					b: b,
+					a: a == undefined ? 255 : a
+				};
+				return form;
+			};
+			return form;
+		}
 
 		function setup()
 		{
