@@ -11,4 +11,4 @@ Follow me on GitHub at [@jenra-uwu](https://github.com/jenra-uwu)!
 
 Talk to me on Matrix at @jenra:chat.unix.lgbt!
 
-Follow me on Mastodon at [@jenra@tech.lgbt](https://tech.lgbt/web/accounts/106648599739096870)!
+Follow me on Mastodon at [@jenra@tech.lgbt](https://tech.lgbt/@jenra)!
