@@ -30,6 +30,7 @@ github_username: jenra-uwu
 
 # Build settings
 theme: pink
+remote_theme: jenra-uwu/pink
 plugins:
   - jekyll-feed
 
