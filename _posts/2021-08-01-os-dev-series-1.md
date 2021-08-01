@@ -25,6 +25,11 @@ On Linux and WSL (which I recommend if you're on Windows), QEMU can be installed
 sudo apt-get install qemu qemu-system-misc
 ```
 
+### Void Linux
+```
+sudo xbps-install -Su qemu
+```
+
 ### Arch Linux
 ```
 sudo pacman -S qemu qemu-arch-extra
@@ -119,7 +124,7 @@ a
 Ignore all the OpenSBI stuff. If the program printed out an `a`, then congratulations! You've successfully compiled an operating system!
 
 ## Okay, but how does this work? Also how do I exit this thing?
-I'm glad you asked! Also, to exit, press <key>ctrl</key>+<key>a</key>, unpress those keys, and then press <key>a</key>. Now that you can use the terminal for a text editor, let's go through the code together! Just don't forget how to exit Vi.
+I'm glad you asked! Also, to exit, press `ctrl`+`a`, unpress those keys, and then press `x`. Now that you can use the terminal for a text editor, let's go through the code together! Just don't forget how to exit Vi.
 
 ### `src/boot.s`
 Let's open up `src/boot.s`. This file contains the code that is first executed in the kernel. This is the file if you're too lazy to open it:
@@ -162,7 +167,7 @@ This declares the label `_start` as global, which means that other files and the
 #### Other notes
 You may have noticed that there are two comments describing what registers `a0` and `a1` correspond to. I shall explain this now.
 
-In RISC V, arguments are passed via registers `a0`-`a7`, and then pushed onto the stack. In this case, there are two arguments being passed along to `kinit`. These register values are provided by OpenSBI, which is the firmware that most RISC V boards run. We will go more in depth with OpenSBI later in this article, but for now, let's take a quick peak at `src/kernel.c`.
+In RISC V, arguments are passed via registers `a0`-`a7`, and then pushed onto the stack. In this case, there are two arguments being passed along to `kinit`. These register values are provided by OpenSBI, which is the firmware that most RISC V boards run. We will go more in depth with OpenSBI later in this article, but for now, let's take a quick peek at `src/kernel.c`.
 
 ### `src/kernel.c`
 The contents of `src/kernel.c` is as follows:
@@ -267,13 +272,12 @@ Ahahaha, you didn't think you'd leave this article without practice problems, di
  2. Implement a `printf` function.
  3. Implement a simple hexdump function.
  4. Make your hexdump function pretty. By pretty, I mean looking something like this:
-    ```
-    00    68 65 77 77 6f 20 77 6f 77 77 64 20 6a 62 73 64     |hewwo wowwd jbsd|
+    <pre><code style="font-size: 13.5;">00    68 65 77 77 6f 20 77 6f 77 77 64 20 6a 62 73 64     |hewwo wowwd jbsd|
     10    66 6e 20 6b 6a 6e 62 6a 66 64 20 73 6e 62 20 6a     |fn kjnbjfd snb j|
     20    6b 66 64 6e 73 20 6a 62 6b 6e 64 66 20 6a 73 62     |kfdns jbkndf jsb|
     30    6e 20 6a 6b 66 64 73 6e 20 62 6a 6b 66 64 20 6e     |n jkfdsn bjkfd n|
     40    62 6a 6b 20 6e                                      |bjk n...........|
-    ```
+    </code></pre>
 
     It helps to have `printf` implemented first, but you can get away with just some `put_hex` and `puts` functions instead.
 

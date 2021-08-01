@@ -9,6 +9,6 @@ My name is Laura. I'm a student in mathematics and computer science with an inte
 
 Follow me on GitHub at [@jenra-uwu](https://github.com/jenra-uwu)!
 
-Talk to me on Matrix at @jenra:chat.unix.lgbt!
+Talk to me on Matrix at [@jenra:chat.unix.lgbt](https://matrix.to/#/@jenra:chat.unix.lgbt)!
 
 Follow me on Mastodon at [@jenra@tech.lgbt](https://tech.lgbt/@jenra)!
